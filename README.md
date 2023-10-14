@@ -10,3 +10,4 @@ In this playlist we'll learn A.I. Deep Learning with Pytorch and Python.  If you
 2. Tensors With PyTorch - Deep Learning with PyTorch 2
 3. Tensor Operations - Reshape and Slice - Deep Learning with PyTorch 3
 4. Tensor Math Operations - Deep Learning with PyTorch 4
+5. Create a Basic Neural Network Model - Deep Learning with PyTorch 5
