@@ -167,3 +167,13 @@ newer_iris = torch.tensor([5.9, 3.0, 5.1, 1.8])
 with torch.no_grad():
   print(model(newer_iris))
 
+# Save the NN Model
+torch.save(model.state_dict(), 'my_really_awesome_iris_model.pt')
+
+# Load the save Model
+new_model = Model()
+new_model.load_state_dict(torch.load('my_really_awesome_iris_model.pt'))
+
+# Make sur the model is loaded correctely
+new_model.eval()
+
