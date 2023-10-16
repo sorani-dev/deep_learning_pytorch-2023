@@ -122,3 +122,31 @@ plt.plot(range(epochs), losses)
 plt.ylabel('loss/error')
 plt.xlabel('Epoch')
 
+# Evaluate Model on Test Data Set (validate model on test set)
+with torch.no_grad(): # Basically turn off propagration
+  y_val = model.forward(X_test) # X_test are features from the test set. y_val will be predictions
+  loss = criterion(y_val, y_test) # Find the loss or error
+
+loss
+
+correct = 0
+
+with torch.no_grad():
+  for i, data in enumerate(X_test):
+    y_val = model.forward(data)
+
+    if y_test[i] == 0:
+      x = 'Setosa'
+    elif y_test[i] == 1:
+      x = 'Versicolor'
+    else:
+      x = 'Virginica'
+
+    # Will print what type of flower class the network thinks it is
+    print(f'{i+1}.) {str(y_val)} \t  {y_test[i]}:{x} \t {y_val.argmax().item()}')
+
+    # Correct or not
+    if y_val.argmax().item()  == y_test[i]:
+      correct += 1
+
+print(f'We get {correct} correct!')
