@@ -15,3 +15,4 @@ In this playlist we'll learn A.I. Deep Learning with Pytorch and Python.  If you
 7. Evaluate Test Data Set On Network - Deep Learning with PyTorch 7
 8. Evaluate NEW Data On The Network - Deep Learning with PyTorch 8
 9. Save and Load our Neural Network Model - Deep Learning with PyTorch 9
+10. Convolutional Neural Network Intro - Deep Learning with PyTorch 10
