@@ -44,7 +44,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 # %matplotlib inline
 
-url = "https://gist.githubusercontent.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv"
+url = "https://gist.githubusercontent.com/netj/" \
+  "8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv"
 my_df = pd.read_csv(url)
 
 my_df
@@ -88,7 +89,8 @@ y_test = torch.LongTensor(y_test)
 
 # Set the criterion of model to mesure the error, how far off the predictions are from the data
 criterion = nn.CrossEntropyLoss()
-# Choose Adam Optimizer, lr = learning rate (if error does not go down after a bunch of iterations (epochs), lower the learning rete)
+# Choose Adam Optimizer, lr = learning rate (if error does not go down after
+#   a bunch of iterations (epochs), lower the learning rete)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
 model.parameters
@@ -150,3 +152,18 @@ with torch.no_grad():
       correct += 1
 
 print(f'We get {correct} correct!')
+
+# New data point
+new_iris = torch.tensor([4.7, 3.2, 1.3, 0.2])
+
+#, Add point to iris
+with torch.no_grad():
+  print(model(new_iris))
+
+# New data pint with a 2 in the veriety column (last row of the original iris dataset)
+newer_iris = torch.tensor([5.9, 3.0, 5.1, 1.8])
+
+#, Add point to iris
+with torch.no_grad():
+  print(model(newer_iris))
+

@@ -13,3 +13,4 @@ In this playlist we'll learn A.I. Deep Learning with Pytorch and Python.  If you
 5. Create a Basic Neural Network Model - Deep Learning with PyTorch 5
 6. Load Data and Train Neural Network Model - Deep Learning with PyTorch 6
 7. Evaluate Test Data Set On Network - Deep Learning with PyTorch 7
+8. Evaluate NEW Data On The Network - Deep Learning with PyTorch 8
