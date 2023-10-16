@@ -18,12 +18,12 @@ class Model(nn.Module):
   #   --> Hidden Layer H2 (n)
   #   --> output (which 3 classes of iris flower)
 
-  def __init__(self, in_features = 4, h1 = 8, h2 = 9, out_features = 3):
+  def __init__(self, in_features=4, h1=8, h2=9, out_features=3):
 
     super().__init__() # Instantiate nn.Module (parent class)
 
     self.fc1 = nn.Linear(in_features, h1)
-    self.fc2 = nn.Linear(in_features, h2)
+    self.fc2 = nn.Linear(h1, h2)
     self.out = nn.Linear(h2, out_features)
 
 
@@ -38,4 +38,87 @@ class Model(nn.Module):
 torch.manual_seed(41)
 # Create an instance of the model Model
 model = Model()
+
+# Commented out IPython magic to ensure Python compatibility.
+import pandas as pd
+import matplotlib.pyplot as plt
+# %matplotlib inline
+
+url = "https://gist.githubusercontent.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv"
+my_df = pd.read_csv(url)
+
+my_df
+
+my_df.head()
+
+my_df.tail()
+
+# Change last column from string to numbers (use as integers afterwards)
+my_df["variety"] = my_df.variety.replace('Setosa', 0.0)
+my_df["variety"] = my_df.variety.replace('Versicolor', 1.0)
+my_df["variety"] = my_df.variety.replace('Virginica', 2.0)
+my_df
+# my_df['variety'] = my_df['variety'].replace('Setosa', 0.0)
+# my_df['variety'] = my_df['variety'].replace('Versicolor', 1.0)
+# my_df['variety'] = my_df['variety'].replace('Virginica', 2.0)
+# my_df
+
+# Train Test Split: Set X, y
+X = my_df.drop('variety', axis=1)
+y = my_df['variety']
+
+# Convert to numpy arrays
+X = X.values
+y = y.values
+
+X
+
+from sklearn.model_selection import train_test_split
+
+# Train Test Split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=41)
+
+# Convert X features to float tensors
+X_train = torch.FloatTensor(X_train)
+X_test = torch.FloatTensor(X_test)
+
+# Convert y labels to tensors long
+y_train = torch.LongTensor(y_train)
+y_test = torch.LongTensor(y_test)
+
+# Set the criterion of model to mesure the error, how far off the predictions are from the data
+criterion = nn.CrossEntropyLoss()
+# Choose Adam Optimizer, lr = learning rate (if error does not go down after a bunch of iterations (epochs), lower the learning rete)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+
+model.parameters
+
+# Train our model!
+# Epochs? (one run all the training data in our network)
+epochs = 100 # How many times
+losses = []
+for i in range(epochs):
+  # Go forward and get a prediction
+  y_pred = model.forward(X_train) # Get predicted results
+
+  # Mesure the loss/error, will be high at first
+  loss = criterion(y_pred, y_train) # Predicted values vs. the y_train values
+
+  # Keep track of the losses
+  losses.append(loss.detach().numpy())
+
+  # Print every 10 epochs
+  if i % 10 == 0:
+    print(f'Epoch: {i} and loss: {loss}')
+
+  # Do some back propagration: take the error rate of forward propagation
+  #   and feed it back through the netword to fine tune the weights
+  optimizer.zero_grad()
+  loss.backward()
+  optimizer.step()
+
+# Graph it out!
+plt.plot(range(epochs), losses)
+plt.ylabel('loss/error')
+plt.xlabel('Epoch')
 
