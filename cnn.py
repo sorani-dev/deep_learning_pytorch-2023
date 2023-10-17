@@ -208,6 +208,13 @@ total = current_time - start_time
 print(f'Training time: {total/60} minutes!')
 total
 
+# Graph the loss of Epoch
+train_losses = [tl.item() for tl in train_losses]
+plt.plot(train_losses, label='Training Loss')
+plt.plot(test_losses, label='Validation Loss')
+plt.title('Loss at Epoch')
+plt.legend()
+
 import time
 start_time = time.time()
 
@@ -266,3 +273,33 @@ current_time = time.time()
 total = current_time - start_time
 print(f'Training Took: {total/60} minutes!')
 
+"""## Graph CNN Results - Deep Learning with PyTorch 18"""
+
+# Graph the loss of Epoch
+train_losses = [tl.item() for tl in train_losses]
+plt.plot(train_losses, label='Training Loss')
+plt.plot(test_losses, label='Validation Loss')
+plt.title('Loss at Epoch')
+plt.legend()
+
+# Graph the accuracy at the end of each Epoch
+plt.plot([t/600 for t in train_correct], label='Training Accuracy')
+plt.plot([t/100 for t in test_correct], label='Validation Accuracy')
+plt.title('Accuracy at the end of each Epoch')
+plt.legend()
+
+test_load_everything = DataLoader(test_data, batch_size=10_000, shuffle=False)
+
+with torch.no_grad():
+  correct = 0
+
+  for X_test, y_test in test_load_everything:
+    y_val = model(X_test)
+    predicted = torch.max(y_val.data, 1)[1]
+    correct += (predicted == y_test).sum()
+
+# Did for correct (out of 10000)
+correct.item()
+
+# Did for correct (percentage of correct)
+ correct.item() / len(test_data) * 100

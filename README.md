@@ -23,3 +23,4 @@ In this playlist we'll learn A.I. Deep Learning with Pytorch and Python.  If you
 15. Convolutional and Pooling Layers - Deep Learning with PyTorch 15
 16. Convolutional Neural Network Model - Deep Learning with PyTorch 16
 17. Train and Test CNN Model - Deep Learning with PyTorch 17
+18. Graph CNN Results - Deep Learning with PyTorch 18
