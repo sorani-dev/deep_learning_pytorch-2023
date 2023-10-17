@@ -149,3 +149,120 @@ model
 # Loss Function Optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001) # The smaller the learning rate, the longer it's going to take to train
+
+"""## Train and Test CNN Model - Deep Learning with PyTorch 17"""
+
+import time
+start_time = time.time()
+
+# Create Variables to track things
+epochs = 5
+train_losses = []
+test_losses = []
+train_correct = []
+test_correct = []
+
+
+# For Loop offor Epochs
+for i in range(epochs):
+  training_correct = 0
+  testing_correct = 0
+
+  # Train
+  for b, (X_train, y_train) in enumerate(train_loader):
+    b += 1 # Start the batches at 1
+
+    y_pred = model(X_train) # Get the predicted values from the training set (data is 2d, not flattened.)
+    loss = criterion(y_pred, y_train) # How off are we? Compare the predictions to the correct answers in y_train
+
+    predicted = torch.max(y_pred.data, 1)[1] # Add up the number of correct predictions. Indexed off the first point
+    batch_correct = (predicted == y_train).sum() # How many we got correct from this specific batch. True=1, False=0, sum those up.
+    training_correct += batch_correct # Keep track as we go along in training.
+
+    # Update the parameters
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    # Print out some results
+    if b % 600 == 0 :
+      print(f'Epoch: {i} Batch: {b} Loss: {loss.item()}')
+
+
+  train_losses.append(loss)
+  train_correct.append(training_correct)
+
+  # Test
+  with torch.no_grad(): # No gradient so the weights and the bias are not updated with test data
+    for b , (X_test, y_test) in enumerate(test_loader):
+      y_val = model(X_test)
+      predicted = torch.max(y_val.data, 1)[1] # Adding up correct predictions
+      testing_correct += (predicted == y_test).sum() # True=1, False=0, sum all
+
+  loss = criterion(y_val, y_test)
+  test_losses.append(loss)
+  test_correct.append(testing_correct)
+
+current_time = time.time()
+total = current_time - start_time
+print(f'Training time: {total/60} minutes!')
+total
+
+import time
+start_time = time.time()
+
+# Create Variables To Tracks Things
+epochs = 5
+train_losses = []
+test_losses = []
+train_correct = []
+test_correct = []
+
+# For Loop of Epochs
+for i in range(epochs):
+  trn_corr = 0
+  tst_corr = 0
+
+
+  # Train
+  for b,(X_train, y_train) in enumerate(train_loader):
+    b+=1 # start our batches at 1
+    y_pred = model(X_train) # get predicted values from the training set. Not flattened 2D
+    loss = criterion(y_pred, y_train) # how off are we? Compare the predictions to correct answers in y_train
+
+    predicted = torch.max(y_pred.data, 1)[1] # add up the number of correct predictions. Indexed off the first point
+    batch_corr = (predicted == y_train).sum() # how many we got correct from this batch. True = 1, False=0, sum those up
+    trn_corr += batch_corr # keep track as we go along in training.
+
+    # Update our parameters
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+
+    # Print out some results
+    if b%600 == 0:
+      print(f'Epoch: {i}  Batch: {b}  Loss: {loss.item()}')
+
+  train_losses.append(loss)
+  train_correct.append(trn_corr)
+
+
+  # Test
+  with torch.no_grad(): #No gradient so we don't update our weights and biases with test data
+    for b,(X_test, y_test) in enumerate(test_loader):
+      y_val = model(X_test)
+      predicted = torch.max(y_val.data, 1)[1] # Adding up correct predictions
+      tst_corr += (predicted == y_test).sum() # T=1 F=0 and sum away
+
+
+  loss = criterion(y_val, y_test)
+  test_losses.append(loss)
+  test_correct.append(tst_corr)
+
+
+
+current_time = time.time()
+total = current_time - start_time
+print(f'Training Took: {total/60} minutes!')
+
