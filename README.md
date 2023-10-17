@@ -18,3 +18,4 @@ In this playlist we'll learn A.I. Deep Learning with Pytorch and Python.  If you
 10. Convolutional Neural Network Intro - Deep Learning with PyTorch 10
 11. Image Filter / Image Kernel Overview - Deep Learning with PyTorch 11
 12. Convolutional Layer and RGB - Deep Learning with PyTorch 12
+13. Pooling Layer in Convolutional Neural Network - Deep Learning with PyTorch 13
