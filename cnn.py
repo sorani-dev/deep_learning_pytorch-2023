@@ -107,3 +107,45 @@ x = F.max_pool2d(x, 2, 2)
 x.shape # 11 / 2 = 5.5 but it is rounded down because no data can invented to round up
 
 (((28-2) / 2) -2) / 2
+
+"""## Convolutional Neural Network Model - Deep Learning with PyTorch 16
+
+"""
+
+# Model Class
+class ConvolutionalNetwork(nn.Module):
+  def __init__(self) -> None:
+    super().__init__()
+    self.conv1 = nn.Conv2d(1, 6, 3, 1)
+    self.conv2 = nn.Conv2d(6, 16, 3, 1)
+
+    # Fully Connected Layers
+    self.fc1 = nn.Linear(5*5*16, 120)
+    self.fc2 = nn.Linear(120, 84)
+    self.fc3 = nn.Linear(84, 10)
+
+  def forward(self, X):
+    X = F.relu(self.conv1(X))
+    X = F.max_pool2d(X, 2, 2) # 2x2 kernel and stride = 2
+    # Second pass
+    X = F.relu(self.conv2(X))
+    X = F.max_pool2d(X, 2, 2) # 2x2 kernel and stride = 2
+
+    # Re-View the data to flatten it out
+    X = X.view(-1, 16*5*5) # Negative one so the batch size can be varied
+
+    # Fully Connected Layers
+    X = F.relu(self.fc1(X))
+    X = F.relu(self.fc2(X))
+    X = self.fc3(X)
+
+    return F.log_softmax(X, dim=1)
+
+# Create an Instance of the Model
+torch.manual_seed(41)
+model = ConvolutionalNetwork()
+model
+
+# Loss Function Optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001) # The smaller the learning rate, the longer it's going to take to train
